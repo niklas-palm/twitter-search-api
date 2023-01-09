@@ -11,7 +11,7 @@ Resources:
   QueryTwitterApiFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: function/
+      CodeUri: search_api/
       Handler: app.lambda_handler
       Runtime: python3.9
       Environment:
