@@ -18,6 +18,10 @@ aws secretsmanager create-secret --name twitter-consumer-key --secret-string 'CO
 secretsmanager create-secret --name twitter-consumer-secret --secret-string 'CONSUMER_SECRET_GOES_HERE'
 ```
 
+### Twitter search query
+
+To change the search query, update the environment variable passed to the Lambda Function. To manipulate other parameters, update the Lambda function code. Documentation on how to build the search query can be found [here](https://developer.twitter.com/en/docs/twitter-api/tweets/search/integrate/build-a-query).
+
 ### Deploy
 
 Using AWS SAM, you can deploy the Lambda function
