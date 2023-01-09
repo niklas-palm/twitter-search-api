@@ -1,42 +1,48 @@
-import json
+import os
+import tweepy
+from aws_lambda_powertools import Logger
 
-# import requests
+
+# Get Twitter API keys from environment
+CONSUMER_KEY = os.environ["CONSUMER_KEY"]
+CONSUMER_SECRET = os.environ["CONSUMER_SECRET"]
+
+# Get query from environment
+QUERY = os.environ["QUERY"]
+
+# init logger
+logger = Logger()
 
 
+@logger.inject_lambda_context
 def lambda_handler(event, context):
-    """Sample pure Lambda function
 
-    Parameters
-    ----------
-    event: dict, required
-        API Gateway Lambda Proxy Input Format
+    assert QUERY
+    assert CONSUMER_KEY
+    assert CONSUMER_SECRET
 
-        Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
+    # authenticate with the Twitter API
+    auth = tweepy.OAuth1UserHandler(CONSUMER_KEY, CONSUMER_SECRET)
 
-    context: object, required
-        Lambda Context runtime methods and attributes
+    api = tweepy.API(auth)
 
-        Context doc: https://docs.aws.amazon.com/lambda/latest/dg/python-context-object.html
+    # fetch the most recent tweets
+    tweets = api.search_tweets(
+        q=QUERY,
+        lang="sv",
+        count=40,
+        tweet_mode="extended",
+    )
 
-    Returns
-    ------
-    API Gateway Lambda Proxy Output Format: dict
+    logger.info("{} tweets returned from API.".format(len(tweets)))
 
-        Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
-    """
+    # print the text of each tweet
+    for tweet in tweets:
+        if "retweeted_status" in tweet._json:
+            # Retweeted tweet
+            logger.info(tweet._json["retweeted_status"]["full_text"])
+        else:
+            # New tweet
+            logger.info(tweet.full_text)
 
-    # try:
-    #     ip = requests.get("http://checkip.amazonaws.com/")
-    # except requests.RequestException as e:
-    #     # Send some context about this error to Lambda Logs
-    #     print(e)
-
-    #     raise e
-
-    return {
-        "statusCode": 200,
-        "body": json.dumps({
-            "message": "hello world",
-            # "location": ip.text.replace("\n", "")
-        }),
-    }
+    return

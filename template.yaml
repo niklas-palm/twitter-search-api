@@ -9,16 +9,22 @@ Globals:
 
 Resources:
   QueryTwitterApiFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Type: AWS::Serverless::Function
     Properties:
       CodeUri: function/
       Handler: app.lambda_handler
       Runtime: python3.9
-      Architectures:
-        - x86_64
+      Environment:
+        Variables:
+          CONSUMER_KEY: "{{resolve:secretsmanager:twitter-consumer-key:SecretString}}"
+          CONSUMER_SECRET: "{{resolve:secretsmanager:twitter-consumer-secret:SecretString}}"
+          QUERY: "kd OR Ebba Busch OR kristdemokraterna"
       Events:
         MySchedule:
           Type: Schedule
           Properties:
             Schedule: "rate(1 minute)"
-            Enabled: false # Change to `true` to activate schedule.
+            Enabled: true # Change to `true` to activate schedule.
+      Tags:
+        project: twitter
+        service: query-api
