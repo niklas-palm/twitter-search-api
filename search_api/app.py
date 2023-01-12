@@ -29,7 +29,7 @@ def lambda_handler(event, context):
     # fetch the most recent tweets
     tweets = api.search_tweets(
         q=QUERY,
-        lang="sv",
+        lang="en",
         count=40,
         tweet_mode="extended",
     )

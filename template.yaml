@@ -18,7 +18,7 @@ Resources:
         Variables:
           CONSUMER_KEY: "{{resolve:secretsmanager:twitter-consumer-key:SecretString}}"
           CONSUMER_SECRET: "{{resolve:secretsmanager:twitter-consumer-secret:SecretString}}"
-          QUERY: "kd OR Ebba Busch OR kristdemokraterna"
+          QUERY: "jeff bezos OR blue origin"
       Events:
         MySchedule:
           Type: Schedule
