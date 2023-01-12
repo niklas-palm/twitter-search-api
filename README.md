@@ -1,10 +1,10 @@
 # twitter-search-api
 
-Cloudformation template that sets up a Lambda function that uses Twitter's search API. Twitter search query passed to the Lambda function environment as variable.
+Cloudformation template that sets up a Lambda function that uses Twitter's search API. The search query passed to the Lambda function environment as variable. By default, the Lambda Function is triggered once every minute.
 
 ### Set up credentials
 
-Once you have your consumer key and consumer secret, use the AWS CLI to store them AWS Secrets Manager.
+On Twitter's [developer portal](https://developer.twitter.com/en/portal/dashboard), follow the instructions to create a new app and retreive the credentials. Once you have your consumer key and consumer secret, use the AWS CLI to store them AWS Secrets Manager.
 
 **Consumer key:**
 
