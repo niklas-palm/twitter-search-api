@@ -15,7 +15,7 @@ aws secretsmanager create-secret --name twitter-consumer-key --secret-string 'CO
 **Consumer secret:**
 
 ```bash
-secretsmanager create-secret --name twitter-consumer-secret --secret-string 'CONSUMER_SECRET_GOES_HERE'
+aws secretsmanager create-secret --name twitter-consumer-secret --secret-string 'CONSUMER_SECRET_GOES_HERE'
 ```
 
 ### Twitter search query
